@@ -1,0 +1,8 @@
+ui\HeuristicNode.class
+ui\HeuristicTests.class
+ui\LoadData.class
+ui\OutputData.class
+ui\BfsAlgorithm.class
+ui\UcsAlgorithm.class
+ui\AStarAlgorithm.class
+ui\Node.class

@@ -1,0 +1,27 @@
+SIGURNOST RAČUNALNIH SUSTAVA, 2023/2024
+PRVA LABORATORIJSKA VJEŽBA: SIMETRIČNA KRIPTOGRAFIJA
+
+U sklopu prve laboratorijske vježbe bilo je potrebno dizajnirati i implementirati jednostavan i siguran prototip alata za pohranu zaporki, tzv. password manager.
+
+Alat je trebalo izvesti koristeći simetričnu kriptografiju što znači da se prilikom enkripcije i dekripcije koristi jednak tajni ključ (secret key).
+Za generiranje ključeva koristila sam PBKDF2 algoritam sa SHA-256 hash funkcijom za generiranje ključa iz master lozinke, koristeći pritom i nasumično generirani podatak tzv. salt, u svrhu povećanja sigurnosti.
+
+Nadalje, za enkripciju i dekripciju koristim prethodno generiran tajni ključ te IV (inicijalizacijski vektor) generiran poput salta, metodom za generiranje slučajnih brojeva. Prilikom toga koristim AES (Advanced Encryption Standard) algoritam u GCM (Galios/Counter Mode) načinu rada.  
+
+Prilikom inicijalizacije novog password managera stvara se tekstualna datoteka "tajna.txt" u koju se kao prvi redak zapisuje nasumično generiran podatak kriptiran navedenom master lozinkom.
+Master lozinka se nigdje ne pohranjuje, a njena ispravnost se provjerava dekripcijom te prve linije. Sustav korisniku ne omogućuje provedbu bilo kakvih akcija ako unesena master lozinka ne odgovara onoj unesenoj prilikom inicijalizacije.
+
+U datoteku "tajna.txt" zapisuju su enkodirani podaci redak po redak u obliku: salt + IV + kriptat (kriptat = domena + "šć" + lozinka ). Izraz "šć" je korišten kao delimiter odnosno pregrada po kojoj nakon dekripcije odvajam domenu od lozinke iz jednog izraza. 
+
+U slučaju kada se pokuša inicijalizirati password manager dok postoji prethodni, sustav korisnika obavještava o postojanju password managera i daje mogućnost nastavljanja s postojećim ili stvaranje novog.
+Stvaranjem novog password managera, briše se prethodna datoteka "tajna.txt" odnosno njen prethodni sadržaj. 
+
+Sustav omogućava promjenu lozinke, tako što se prilikom unosa lozinke za postojeću domenu zamijeni cijeli redak u datoteci i spremi se nova lozinka.
+
+Sustav obavještava korisnika sljedećom porukom: 
+">>> master password incorrect or integrity check failed" u slučaju kada:
+	- korisnik unese pogrešnu master lozinku,
+	- redci u datoteci budu promijenjeni,
+	- ne postoji spremljena lozinka za traženu domenu.
+
+Program se pokreće pomoću python skripte script.py naredbom "python script.py" iz terminala.

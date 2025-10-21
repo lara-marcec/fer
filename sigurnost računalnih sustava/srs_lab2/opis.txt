@@ -1,0 +1,29 @@
+SIGURNOST RAČUNALNIH SUSTAVA, 2023/2024
+DRUGA LABORATORIJSKA VJEŽBA: AUTENTIFIKACIJA UPOTREBOM LOZINKI
+
+U sklopu druge laboratorijske vježbe bilo je potrebno implementirati dva alata.
+
+Prvi alat (UserMgmt.java) omogućuje upravljanje lozinkama i korisničkim imenima te uključuje operacije dodavanja novog korisnika, mijenjanje lozinke korisnika, brisanje korisnika te forsiranje promjene lozinke nekog korisnika. 
+Prilikom dodavanja prvog korisnika stvara se txt datoteka "tajna.txt" u koju se pohranjuju informacije o korisnicima.
+U jednom redu datoteke zapisuje se zastavica kojom se prati je li zatražena prisilna promjena lozinke, korisničko ime te lozinka u hashiranom obliku. 
+Lozinka i korisničko ime su odvojeni razmakom. 
+Lozinka se hashira pomoću PBKDF2 algoritma sa SHA-256 hash funkcijom, a uz lozinku sam koristila i nasumično generirani salt. 
+
+Drugi alat (Login.java) omogućuje prijavu u sustav korisnicima koji su u sustavu.
+Prilikom prijave provjerava se je li zatražena promjena lozinke, a nakon uspješne prijave pokreće se notepad.exe. 
+Prilikom unosa pogrešne lozinke sustav vraća grešku: ">>> username or password incorrect".
+
+Mehanizmi zaštite koji su implementirani:
+- korištenjem salta pri zaštiti lozinke smanjuje se uspješnost brute-force napada ili napada na temelju riječnika
+- prilikom unosa lozinke u terminalu ona nije vidljiva
+- provjera složenosti lozinke - lozinka mora imati barem 8 znakova, od čega barem jedno veliko slovo, jedno malo te barem jedan broj
+- prilikom forsiranja promjene lozinke sustav upozorava korisnika kada unese lozinku jednaku prošloj
+- prilikom prijave u sustav dopuštena su tri pokušaja unosa lozinke, nakon trećeg pokušaja izlazi se iz sutava i potrebno je ponovno pokretanje
+- forsiranje zamjene lozinke
+
+Mehanizmi zaštite koji nisu implementirani:
+- nakon svakog neuspjelog pokušaja upisivanja lozinke povećava se vrijeme čekanja
+- nakon određenog broja neuspjelih pokušaja korisnik se blokira, korisnički račun se zaključava, generira se upozorenje vlasniku sustava
+
+
+Program se pokreće pomoću python skripte script.py naredbom "python script.py" iz terminala.

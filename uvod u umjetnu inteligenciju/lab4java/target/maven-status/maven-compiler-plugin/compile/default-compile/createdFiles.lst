@@ -1,0 +1,6 @@
+ui\GeneticAlgorithm.class
+ui\DataLoader.class
+ui\Helpers.class
+ui\Layer.class
+ui\NeuralNetwork.class
+ui\Solution.class
